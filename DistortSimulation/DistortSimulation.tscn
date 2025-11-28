@@ -1,0 +1,174 @@
+[gd_scene load_steps=22 format=3 uid="uid://bynlxld3urebg"]
+
+[ext_resource type="Texture2D" uid="uid://c3h1fxipp0mmj" path="res://Sprites/BackgroundPurpleDark01.png" id="1_jfut4"]
+[ext_resource type="Texture2D" uid="uid://cf4ddwf75ggsa" path="res://Sprites/Background.png" id="2_emf8a"]
+[ext_resource type="Texture2D" uid="uid://dmtssq5dbl7he" path="res://Sprites/RandomInternet_image.png" id="3_qelcs"]
+[ext_resource type="Shader" uid="uid://cx445ebkyq7oo" path="res://DistortSimulation/BlurMask.gdshader" id="4_fcygw"]
+[ext_resource type="Material" uid="uid://cxdrpnu070vkk" path="res://DistortSimulation/DistortSimulationMaterial.tres" id="5_g04tn"]
+[ext_resource type="Texture2D" uid="uid://bnikid0rkln3" path="res://Sprites/2x2.png" id="6_0ks6d"]
+[ext_resource type="Texture2D" uid="uid://bub1jllc2ogjm" path="res://Sprites/100x100_circle.png" id="7_m2xl5"]
+[ext_resource type="Script" uid="uid://duhqmraljfcui" path="res://DistortSimulation/DistortSimulation.gd" id="8_h4ls7"]
+[ext_resource type="Texture2D" uid="uid://bkr7xop2qrsai" path="res://Sprites/noise_seamless.png" id="9_3wdco"]
+[ext_resource type="Shader" uid="uid://d0ty6icosgx7j" path="res://DistortSimulation/DistortSimulationFinalEffect.gdshader" id="9_emf8a"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7f1cm"]
+viewport_path = NodePath("ObjectCanvas/ViewportContainer/Viewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b25wg"]
+shader = ExtResource("4_fcygw")
+shader_parameter/lod_bias = 2.20000003278264
+shader_parameter/z_length = 0.02999999932944
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5k0c1"]
+viewport_path = NodePath("ObjectCanvas/ViewportContainer/Viewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r25a3"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jdklj"]
+viewport_path = NodePath("SubViewportVFX")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_oeqxv"]
+viewport_path = NodePath("ObjectCanvas/ViewportContainer/Viewport")
+
+[sub_resource type="Gradient" id="Gradient_igml5"]
+offsets = PackedFloat32Array(0, 0.38828632, 0.8177874, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.4492039, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0q0tw"]
+gradient = SubResource("Gradient_igml5")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_igml5"]
+viewport_path = NodePath("SubViewportVFX")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_40b7u"]
+resource_local_to_scene = true
+shader = ExtResource("9_emf8a")
+shader_parameter/wave_sim = SubResource("ViewportTexture_igml5")
+shader_parameter/ship = SubResource("ViewportTexture_oeqxv")
+shader_parameter/noise = ExtResource("9_3wdco")
+shader_parameter/tint_color = Color(0, 0.15, 0.3, 1)
+shader_parameter/tint_gradient = SubResource("GradientTexture1D_0q0tw")
+shader_parameter/distorion_scale = 0.1999999955296
+shader_parameter/distortion_power = 0.08999999798832001
+shader_parameter/blur_value = 0.5000000074506
+shader_parameter/chromatic_aberations = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_luk7u"]
+viewport_path = NodePath("GeneratedNormalViewport")
+
+[node name="Game" type="Node2D"]
+metadata/_edit_lock_ = true
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -128
+
+[node name="Background" type="TextureRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 504.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("1_jfut4")
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_lock_ = true
+
+[node name="BackgroundStars" type="TextureRect" parent="Background"]
+unique_name_in_owner = true
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_emf8a")
+metadata/_edit_lock_ = true
+
+[node name="ObjectCanvas" type="CanvasLayer" parent="."]
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="ObjectCanvas"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+
+[node name="Viewport" type="SubViewport" parent="ObjectCanvas/ViewportContainer"]
+unique_name_in_owner = true
+transparent_bg = true
+handle_input_locally = false
+use_hdr_2d = true
+physics_object_picking = true
+physics_object_picking_first_only = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="RandomInternetImage" type="Sprite2D" parent="ObjectCanvas/ViewportContainer/Viewport"]
+position = Vector2(580, 324)
+texture = ExtResource("3_qelcs")
+
+[node name="GeneratedNormalViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+use_hdr_2d = true
+size = Vector2i(1920, 1080)
+
+[node name="ObjectToBlur" type="TextureRect" parent="GeneratedNormalViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("ViewportTexture_7f1cm")
+
+[node name="BlurMaskShader" type="TextureRect" parent="GeneratedNormalViewport"]
+material = SubResource("ShaderMaterial_b25wg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("ViewportTexture_5k0c1")
+
+[node name="SubViewportVFX" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(480, 270)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="SimulationSprite" type="Sprite2D" parent="SubViewportVFX"]
+material = ExtResource("5_g04tn")
+scale = Vector2(240, 135)
+texture = ExtResource("6_0ks6d")
+centered = false
+
+[node name="Marker1" type="Sprite2D" parent="SubViewportVFX"]
+unique_name_in_owner = true
+position = Vector2(284.18, 112.75)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("7_m2xl5")
+
+[node name="Wolrd2DCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 2
+
+[node name="SimulationVFX" type="Sprite2D" parent="Wolrd2DCanvas"]
+z_index = 9
+material = SubResource("ShaderMaterial_r25a3")
+scale = Vector2(4, 4)
+texture = SubResource("ViewportTexture_jdklj")
+centered = false
+script = ExtResource("8_h4ls7")
+
+[node name="World2D" type="Node2D" parent="Wolrd2DCanvas"]
+unique_name_in_owner = true
+
+[node name="BlobShield" type="Sprite2D" parent="Wolrd2DCanvas/World2D"]
+material = SubResource("ShaderMaterial_40b7u")
+texture = SubResource("ViewportTexture_luk7u")
+centered = false

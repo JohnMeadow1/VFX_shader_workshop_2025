@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3 uid="uid://dcl7eg40y488c"]
+
+[ext_resource type="Script" uid="uid://bfnkxfls361la" path="res://BlinnPhongShading/Sphere.gd" id="1_von0e"]
+[ext_resource type="Material" uid="uid://dby6arjeylthv" path="res://BlinnPhongShading/BlinnPhongMaterial.tres" id="2_1nqmv"]
+[ext_resource type="Texture2D" uid="uid://bivjqtblq4ie4" path="res://icon.svg" id="3_i0ybu"]
+[ext_resource type="Texture2D" uid="uid://38u7tcebcxfd" path="res://Sprites/100x100_circle_gauss.png" id="4_8pr8h"]
+[ext_resource type="Script" uid="uid://bnk4yr0x3sxhn" path="res://BlinnPhongShading/RadialBlur.gd" id="4_i0ybu"]
+[ext_resource type="Shader" uid="uid://d2n4rumrnodhm" path="res://BlinnPhongShading/RadialBlur.gdshader" id="5_10iq8"]
+
+[sub_resource type="Gradient" id="Gradient_8pr8h"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dutye"]
+gradient = SubResource("Gradient_8pr8h")
+fill = 1
+fill_from = Vector2(0.512821, 0.452991)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_dutye"]
+viewport_path = NodePath("SubViewportContainer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_omkm6"]
+resource_local_to_scene = true
+shader = ExtResource("5_10iq8")
+shader_parameter/subviewport_texture = SubResource("ViewportTexture_dutye")
+shader_parameter/light_color = SubResource("GradientTexture2D_dutye")
+shader_parameter/ray_length = 1.0
+shader_parameter/ray_intensity = 1.0
+shader_parameter/light_source_scale = 1.0
+shader_parameter/light_source_feather = 2.0
+shader_parameter/noise_strength = 0.2
+shader_parameter/light_source_pos = Vector2(256, 256)
+shader_parameter/light_source_dir = Vector3(0, 0, -1)
+shader_parameter/camera_dir = Vector3(0, 0, 1)
+
+[node name="Container" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+unique_name_in_owner = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Planet" type="Node2D" parent="SubViewportContainer/SubViewport"]
+script = ExtResource("1_von0e")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/Planet"]
+unique_name_in_owner = true
+texture_filter = 1
+material = ExtResource("2_1nqmv")
+position = Vector2(480, 270)
+texture = ExtResource("3_i0ybu")
+
+[node name="Marker2D" type="Marker2D" parent="SubViewportContainer/SubViewport/Planet"]
+position = Vector2(138, 9)
+gizmo_extents = 39.5
+
+[node name="LightSource" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(960, 176)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_8pr8h")
+
+[node name="RadialBlur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_omkm6")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_i0ybu")

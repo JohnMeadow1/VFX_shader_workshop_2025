@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cxdrpnu070vkk"]
+
+[ext_resource type="Shader" uid="uid://bpsb48m2xbvbe" path="res://DistortSimulation/DistortSimulation.gdshader" id="1_2bogw"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pjl7w"]
+viewport_path = NodePath("GeneratedNormalViewport")
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_2bogw")
+shader_parameter/ship = SubResource("ViewportTexture_pjl7w")
+shader_parameter/propagation = 0.25

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dbin6m1g6wr64"]
+
+[ext_resource type="Shader" uid="uid://c3j8vstr7u2ds" path="res://Distort/Distort.gdshader" id="1_n617v"]
+[ext_resource type="Texture2D" uid="uid://bxvr043b6w7dy" path="res://Sprites/RandomInternet_image_normal.png" id="2_wtcpj"]
+
+[resource]
+shader = ExtResource("1_n617v")
+shader_parameter/ship_normal = ExtResource("2_wtcpj")
+shader_parameter/distorion_scale = 2.53999994322592
+shader_parameter/blend = 0.999999977648

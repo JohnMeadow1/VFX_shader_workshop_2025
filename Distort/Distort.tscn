@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbj0yu4inv4d1"]
+
+[ext_resource type="Texture2D" uid="uid://c3h1fxipp0mmj" path="res://Sprites/BackgroundPurpleDark01.png" id="1_t1ihu"]
+[ext_resource type="Texture2D" uid="uid://cf4ddwf75ggsa" path="res://Sprites/Background.png" id="2_a64um"]
+[ext_resource type="Material" uid="uid://dbin6m1g6wr64" path="res://Distort/DistortMaterial.tres" id="3_277ou"]
+[ext_resource type="Texture2D" uid="uid://bvhivqni54h45" path="res://Sprites/continents.png" id="3_s22vo"]
+[ext_resource type="Texture2D" uid="uid://dmtssq5dbl7he" path="res://Sprites/RandomInternet_image.png" id="4_s22vo"]
+[ext_resource type="Script" uid="uid://ca2wpx6bajc1p" path="res://Distort/Distort.gd" id="5_s22vo"]
+
+[node name="Distort" type="Node2D"]
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -128
+
+[node name="Background" type="TextureRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 504.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t1ihu")
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_lock_ = true
+
+[node name="BackgroundStars" type="TextureRect" parent="Background"]
+unique_name_in_owner = true
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_a64um")
+metadata/_edit_lock_ = true
+
+[node name="BackgroundStars2" type="TextureRect" parent="Background"]
+unique_name_in_owner = true
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_s22vo")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("3_277ou")
+position = Vector2(802, 522)
+texture = ExtResource("4_s22vo")
+script = ExtResource("5_s22vo")
