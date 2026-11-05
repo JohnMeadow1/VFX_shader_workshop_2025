@@ -34,13 +34,13 @@ vec3 get_light(vec3 normal, float time){
 
 
 void fragment() {
-	vec2 UV_entered = UV * 2.0 - 1.0;
-	vec3 normal = get_nomal(UV_entered);
+	vec2 UV_centered = UV * 2.0 - 1.0;
+	vec3 normal = get_nomal(UV_centered);
 	normal = normalize(normal);
 
 	vec3 color = get_light(normal, TIME * 0.3);
-
-	float fade = length(UV_entered);
 	COLOR.rgb = color;
+
+	float fade = length(UV_centered);
 	COLOR.a = smoothstep(1.0, 0.9999, fade);
 }
