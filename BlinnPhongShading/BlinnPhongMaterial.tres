@@ -5,8 +5,8 @@
 [resource]
 shader = ExtResource("1_5d00o")
 shader_parameter/ambient_color = Color(0, 0, 0, 1)
-shader_parameter/diffuse_color = Color(0.65834004, 0.6583399, 0.6583399, 1)
-shader_parameter/specular_color = Color(1, 1, 0, 1)
+shader_parameter/diffuse_color = Color(0.7294118, 0.38039216, 0, 1)
+shader_parameter/specular_color = Color(0.9490196, 1, 0.3529412, 1)
 shader_parameter/specular_power = 20.0
-shader_parameter/specular_intensity = 0.999999977648
+shader_parameter/specular_intensity = 1.0
 shader_parameter/light_direction = Vector3(0.26601252, 0.017348642, 0.9638135)
