@@ -5,6 +5,13 @@ uniform sampler2D ship_normal:repeat_disable, filter_linear_mipmap;
 uniform float distorion_scale:hint_range(0.01, 10.0, 0.01) = 1.0;
 uniform float blend:hint_range(0.00, 1.0, 0.01) = 1.0;
 
+// xy = sprite local X axis in world space, zw = local Y axis (rotation only, scale stripped)
+varying vec4 model_basis;
+
+void vertex() {
+	model_basis = vec4(normalize(MODEL_MATRIX[0].xy), normalize(MODEL_MATRIX[1].xy));
+}
+
 
 vec3 get_normal(vec2 uv) {
 	float z = sqrt(1.0 - ( pow(uv.x, 2.0) + pow(uv.y, 2.0) ));
@@ -19,10 +26,17 @@ vec2 sphere_to_UV(vec3 sphere_point) {
 void fragment() {
 	vec4 color = texture(TEXTURE, UV);
 	vec4 normal = texture(ship_normal, UV);
-	vec2 correction = 0.0001 / vec2(dFdx(UV.x), dFdy(UV.y));
 
+	// gradient lengths keep the pixel-scale correction stable when the sprite rotates
+	vec2 correction = 0.0001 / vec2(
+			length(vec2(dFdx(UV.x), dFdy(UV.x))),
+			length(vec2(dFdx(UV.y), dFdy(UV.y))));
 
-	vec2 uv_sphere_offset = SCREEN_UV.xy + (normal.rg-0.5) * distorion_scale * correction;
+	// rotate the texture-space normal into world/screen space to follow the sprite rotation
+	vec2 n = normal.rg - 0.5;
+	vec2 n_rotated = n.x * model_basis.xy + n.y * model_basis.zw;
+
+	vec2 uv_sphere_offset = SCREEN_UV.xy + n_rotated * distorion_scale * correction;
 	
 	vec4 color_screen = texture(screen_texture, uv_sphere_offset);
 	COLOR.rgb = color_screen.rgb;
